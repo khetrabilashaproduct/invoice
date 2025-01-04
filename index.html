@@ -1,0 +1,834 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice | Khetra Bilasha Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+  <!-- date  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    
+    <!-- QR -->
+    <script src="https://cdn.rawgit.com/neocotic/qrious/4.0.0/dist/QRious.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+
+body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            /* align-items: center; */
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f7fb;
+            margin: 0;
+        }
+
+        .container {
+            min-width: 98%;
+            min-height: 98vh; /* Minimum height for the container */
+            background-color: #ffffff; /* Soft white */
+            margin-top: 4px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .watermark {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.15; /* Increased opacity for better visibility */
+            font-size: 100px;
+            color: #007bff;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 9999; /* Make sure it stays on top */
+        }
+        .col-md-8{
+            margin-left: 38%;
+            justify-content: right;
+            width: 28%;
+        }
+
+        .totals input {
+            text-align: right;
+        }
+            #productTable input[placeholder="Product Name"] {
+            width: 100%;
+            flex-grow: 2; /* Make the Product Name input box larger */
+        }
+
+        #productTable input {
+            flex-grow: 1; /* Other inputs remain standard size */
+        }
+
+        textarea {
+            overflow: hidden;
+            resize: none; /* Prevent manual resize */
+        }
+
+        .search-container {
+            margin-top: 1%;
+            display: flex;
+            justify-content: center;
+            /* margin: 30px 0; */
+        }
+
+        #searchBox {
+            width: 10%;
+            transition: all 0.3s ease-in-out;
+        }
+        .card {
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+#searchResultsContainer {
+    margin-top: 1rem;
+    transition: opacity 0.3s ease;
+}
+
+#searchResultsContainer.hidden {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when hidden */
+}
+
+       
+
+        #dateLabel {
+    font-size: 16px;
+    color: #333;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  #calendarButton {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  #calendarButton:hover {
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    background-color: #f1f1f1; /* Change background on hover */
+  }
+
+  #calendarButton i {
+    transition: color 0.3s ease;
+  }
+
+  #calendarButton:hover i {
+    color: #3498db; /* Change icon color on hover */
+  }
+
+  #dateLabel:hover {
+    transform: scale(1.1); /* Slightly enlarge the text on hover */
+    color: #3498db; /* Change text color on hover */
+  }
+
+        /* Initial container setup */
+/* Style for logo container */
+#logo-container {
+    margin-right: 20px; /* Space on the right of the logo */
+    margin-top: -2%;
+}
+
+#company-logo {
+    width: 60px; /* Small size for the logo */
+    height: 60px; /* Same height to create a circle */
+    border-radius: 50%; /* Circular logo */
+    object-fit: cover; /* Ensure it fills the circle */
+}
+
+/* Style for the company name */
+h1 {
+    font-size: 28px; /* Larger font size for the company name */
+    font-weight: bold; /* Make the company name bold */
+    margin: 0;
+}
+
+/* Header flex layout adjustments */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Styles for the section under the header */
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: 10px; */
+}
+
+.text-end {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+    flex-grow: 1; /* Ensure this section takes up available space */
+}
+
+#invoiceNumber {
+    font-weight: bold; /* Make invoice number stand out */
+}
+
+a {
+    text-decoration: none;
+}
+i.fa {
+    color: rgb(10, 54, 110);
+}
+
+
+/* Animation to move the logo in a circular path */
+
+        @media print {
+                .btn,
+                th.action-column,
+                td.action-column {
+                display: none;
+            }
+            .watermark {
+                opacity: 0.07; /* Increase opacity slightly for better visibility in print */
+                font-size: 150px; /* Optionally increase size for better print visibility */
+                pointer-events: none; /* Ensure the watermark doesn't interfere with page interactions */
+            }
+
+            #searchBox,
+        #searchResults,
+        .btn {
+            display: none !important;
+        }
+        #paymentStatus {
+            width: 110%;  /* Adjust width for PDF output */
+            height: auto;
+            font-size: 16px;
+            border: 1px solid #000;  /* Add border for clear visibility */
+            padding: 10px;
+        }
+        }
+
+        .form-row {
+            width: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: right;
+            gap: 2px;
+            margin-left: 50%;
+        }
+
+        .form-row .form-label {
+            white-space: nowrap;
+        }
+    
+        @media screen and (max-width: 480px) {
+            .container{
+                 min-height: 95vh; /* Minimum height for the container */
+            }
+            .col-md-8{
+            margin-left: 0;
+            justify-content: right;
+            width: 100%;
+        }
+            
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="search-container">
+        <input type="text" id="searchBox" class="form-control ms-2" placeholder="Enter phone number">
+        <button class="btn btn-primary ms-2" onclick="searchInvoiceByPhone()">Search</button>
+    </div>
+    <div id="searchResultsContainer" class="container mt-3">
+        <div class="row" id="cardGrid"></div>
+    </div>
+
+    <script>
+       // Fetch JSON data
+let invoices = []; // Store all invoices
+
+async function fetchInvoices() {
+    try {
+        const response = await fetch('invoice.json');
+        invoices = await response.json();
+    } catch (error) {
+        console.error("Error fetching invoices:", error);
+    }
+}
+
+// Search by phone number
+async function searchInvoiceByPhone() {
+    if (!invoices.length) await fetchInvoices();
+
+    const query = document.getElementById('searchBox').value.trim();
+    const resultsContainer = document.getElementById('cardGrid');
+    resultsContainer.innerHTML = ''; // Clear previous results
+    document.getElementById('searchResultsContainer').style.display = 'block'; // Show container in case it was hidden
+
+    if (!query) {
+        alert("Please enter a phone number to search.");
+        return;
+    }
+
+    const matchingInvoices = invoices.filter(inv => inv.phoneNumber === query);
+
+    if (matchingInvoices.length === 0) {
+        resultsContainer.innerHTML = '<p>No invoices found for this phone number.</p>';
+        return;
+    }
+
+    // Display tiles for each matching invoice
+    matchingInvoices.forEach((invoice) => {
+        const card = document.createElement('div');
+        card.className = 'col-sm-12 col-md-6 col-lg-4 mb-3'; // Responsive card width
+        card.innerHTML = `
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Invoice #${invoice.id}</h5>
+                    <p><strong>Name:</strong> ${invoice.buyerName}</p>
+                    <p><strong>Date:</strong> ${invoice.date}</p>
+                    <p><strong>Total:</strong> ₹${invoice.totalAmount.toFixed(2)}</p>
+                    <button class="btn btn-primary w-100" onclick='viewInvoice(${JSON.stringify(invoice)})'>View Details</button>
+                </div>
+            </div>
+        `;
+        resultsContainer.appendChild(card);
+    });
+}
+
+
+// Populate form with invoice details
+function viewInvoice(invoice) {
+    // Populate form fields with the selected invoice's data
+    document.getElementById('customerName').value = invoice.buyerName;
+    document.getElementById('phoneNumber').value = invoice.phoneNumber;
+    document.getElementById('totalAmount').value = invoice.totalAmount.toFixed(2);
+    document.getElementById('dateLabel').innerText = invoice.date;
+    document.getElementById('paymentStatus').value = invoice.paymentStatus.replace(/\\n/g, '\n');
+
+    // Populate the product table
+    const productTable = document.getElementById('productRows');
+    productTable.innerHTML = ''; // Clear previous rows
+
+    invoice.products.forEach(product => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${product.productName}</td>
+            <td>${product.price}</td>
+            <td>${product.quantity}</td>
+            <td>${product.total}</td>
+        `;
+        productTable.appendChild(row);
+    });
+
+    // Hide the search results container
+    document.getElementById('searchResultsContainer').style.display = 'none';
+}
+
+
+
+    </script>
+    
+
+    <div id="invoiceContent">
+            <div class="container position-relative">
+                
+                <header class="d-flex justify-content-between align-items-start mb-4">
+                    <!-- Left side: Logo -->
+                    <div id="logo-container" class="d-flex align-items-center">
+                        <img id="company-logo" src="/images/logo.png" alt="Company Logo">
+                    </div>
+                    
+                    <!-- Center: Company Name -->
+                    <div class="text-center flex-grow-1">
+                        <h1 class="text-primary">Khetra Bilasha Products</h1>
+                       
+                    </div>
+                    
+                    <!-- Right side: Invoice Number -->
+                    <div class="text-end">
+                        <p>
+                            <span id="dateLabel" class="me-2"></span>
+                            <button id="calendarButton" class="btn btn-light btn-sm">
+                                <i class="bi bi-calendar3"></i>
+                            </button>
+                        </p>
+                        
+                    </div>
+                </header>
+                
+                <!-- Under the header: Date, Contact, Website, Owner Name -->
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p><strong><i class="fa fa-user-circle animate__animated animate__rubberBand"></i> Owner:</strong> Sukanta Behera</p>
+                        <p><strong>   <i class="fa fa-phone animate__animated animate__rubberBand"></i> Contact:</strong> 9337405868</p>
+                        <p><strong><i class="fa fa-globe animate__animated animate__rubberBand"></i>
+                            Website:</strong> <a href="https://khetrabilashaproduct.github.io/" target="_blank">khetrabilashaproduct.github.io</a></p>
+                    </div>
+                    <div class="text-end">
+                    
+                        <div class="form-row mb-3">
+                            <label for="customerName" class="form-label"><i class="fa fa-shopping-cart animate__animated animate__rubberBand"></i>
+
+                                Buyer Name:</label>
+                            <input type="text" id="customerName" class="form-control" placeholder="Enter buyer name" required>
+                            <label for="phoneNumber" class="form-label"><i class="fa fa-mobile-alt animate__animated animate__rubberBand"></i> Phone Number:</label>
+                            <input type="tel" id="phoneNumber" class="form-control" placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <form id="invoiceForm">
+                    
+                    <table class="table table-bordered" id="productTable">
+                        <thead>
+                            <tr>
+                                <th><i class="fa fa-cube"></i> Product / Service </th>
+                                <th><i class="fa fa-rupee-sign"></i> Price</th>
+                                <th><i class="fa fa-cubes"></i> Quantity</th>
+                                <th><i class="fa fa-calculator"></i> Total</th>
+                                <th class="action-column">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productRows">
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Product Name" id="productName" required></td>
+                                <td><input type="number" class="form-control" placeholder="Price" oninput="calculateRowTotal(this)" required></td>
+                                <td><input type="number" class="form-control" placeholder="Quantity" oninput="calculateRowTotal(this)" required></td>
+                                <td><input type="number" class="form-control" placeholder="Total" readonly></td>
+                                <td class="action-column"><button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fa fa-trash animate__animated animate__rubberBand"></i> Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Add CSS for the dropdown and animation -->
+                    <style>
+                        .input-group {
+                            position: relative;
+                        }
+                    
+                        .input-group .form-control {
+                            padding-right: 100px; /* Space for the dropdown button */
+                        }
+                    
+                        .dropdown-menu {
+                            display: none;
+                            position: absolute;
+                            top: 100%;
+                            left: 0;
+                            width: 100%;
+                            animation: dropdownFadeIn 0.3s ease-in-out;
+                            background-color: white;
+                            border: 1px solid #ccc;
+                            z-index: 1000;
+                        }
+                    
+                        .dropdown-menu.show {
+                            display: block;
+                        }
+                    
+                        @keyframes dropdownFadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(-10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                    
+                        /* Rotate the icon when dropdown is active */
+                        .rotate {
+                            transform: rotate(180deg);
+                            transition: transform 0.3s ease;
+                        }
+                    
+                        .dropdown-item {
+                            cursor: pointer;
+                        }
+                    
+                        /* Style for the dropdown button inside the input box */
+                        .input-group .btn {
+                            position: absolute;
+                            top: 50%;
+                            right: 5px;
+                            transform: translateY(-50%);
+                            border: none;
+                            background: none;
+                        }
+                    </style>
+                    
+                    <!-- JavaScript to handle dropdown and animation -->
+                    <script>
+                        // Toggle dropdown visibility and rotate icon
+                        function toggleDropdown() {
+                            const dropdown = document.getElementById('productDropdown');
+                            const icon = document.getElementById('dropdownIcon');
+                    
+                            // Toggle dropdown visibility
+                            dropdown.classList.toggle('show');
+                    
+                            // Rotate the icon based on dropdown state
+                            if (dropdown.classList.contains('show')) {
+                                icon.classList.add('rotate');
+                                icon.textContent = 'v';
+                            } else {
+                                icon.classList.remove('rotate');
+                                icon.textContent = '^';
+                            }
+                        }
+                    
+                        // Close the dropdown when clicking outside
+                        window.addEventListener('click', function(event) {
+                            const dropdown = document.getElementById('productDropdown');
+                            const button = document.getElementById('dropdownButton');
+                            const inputField = document.getElementById('productName');
+                            const icon = document.getElementById('dropdownIcon');
+                    
+                            if (!dropdown.contains(event.target) && event.target !== button && event.target !== inputField) {
+                                dropdown.classList.remove('show');
+                                icon.classList.remove('rotate');
+                                icon.textContent = '^'; // Reset icon
+                            }
+                        });
+                    
+                        // Handle product selection from dropdown
+                        document.querySelectorAll('.dropdown-item').forEach(function(item) {
+                            item.addEventListener('click', function() {
+                                const productNameInput = document.getElementById('productName');
+                                productNameInput.value = item.textContent; // Set product name in input
+                                document.getElementById('productDropdown').classList.remove('show');
+                                
+                                // Reset the icon
+                                const icon = document.getElementById('dropdownIcon');
+                                icon.classList.remove('rotate');
+                                icon.textContent = '^';
+                            });
+                        });
+                    </script>
+                    
+                    <button type="button" class="btn btn-primary mb-3" onclick="addRow()"><i class="fa fa-plus animate__animated animate__rubberBand"></i>
+                        Add Row</button>
+
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-md-4">
+                            <label for="qrCode" class="form-label">.</label>
+                            <canvas id="qrCanvas" class="border"></canvas>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="totalAmount" class="form-label">Total Amount:</label>
+                                    <input type="number" id="totalAmount" class="form-control" readonly >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="paymentStatus" class="form-label">Payment Status: <span id="statusIcon"><i class="fa fa-times-circle"></i></span></label>
+                                    <textarea id="paymentStatus" rows="2" class="form-control" placeholder="Paid/On Hold/Half Paid" oninput="resizeTextarea(this)" required></textarea>
+                                    <!-- Payment Status Buttons to Trigger Change -->
+                                    <div style="margin-top: 10px;
+                                    font-size: 16px;
+        padding: 12px 24px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;" class="actions">
+                                        <button style=" color: white;
+                                        background-color: #28a745;
+                                                     box-shadow: 0 4px 14px rgba(40, 167, 69, 0.4);" 
+                                                     class="btn "   type="button" onclick="updatePaymentStatus(event, 'paid')">Mark as Paid</button>
+                                        <button style="color: white;
+                                        background-color: #dc3545;
+                                                    box-shadow: 0 4px 14px rgba(220, 53, 69, 0.4);" class="btn "   type="button" onclick="updatePaymentStatus(event, 'unpaid')">Mark as Unpaid</button>
+                                        <button style="color: white;
+                                        background-color: #ffc107;
+                                        box-shadow: 0 4px 14px rgba(255, 193, 7, 0.4);
+                                       " class="btn "  type="button" onclick="updatePaymentStatus(event, 'halfPaid')">Mark as Half Paid</button>
+                                    </div>
+                                    <script>
+                                            function updatePaymentStatus(event, status) {
+                                            event.preventDefault();  // Stop the form from submitting or refreshing
+                                            
+                                            const statusText = document.getElementById("paymentStatus");
+                                            const statusIcon = document.getElementById("statusIcon");
+
+                                            if (status === 'paid') {
+                                                // statusText.value = "Paid";
+                                                statusIcon.innerHTML = '<i class="fa fa-check-circle animate__animated animate__bounceIn" style="color:green;"></i>';
+                                            } else if (status === 'unpaid') {
+                                                // statusText.value = "Unpaid";
+                                                statusIcon.innerHTML = '<i class="fa fa-times-circle animate__animated animate__shakeX" style="color:red;"></i>';
+                                            } else if (status === 'halfPaid') {
+                                                // statusText.value = "Half Paid";
+                                                statusIcon.innerHTML = '<i class="fa fa-credit-card animate__animated animate__pulse" style="color:orange;"></i>';
+                                            }
+                                        } </script>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+                    
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 text-center">
+                            <p><strong>Seller Signature</strong></p>
+                            <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto; padding: 0px;">
+                            <img src="/images/sign.jpg" alt="Seller Signature" style="max-width: 150px; border-top: 0px solid #000; padding: 0px;">
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <p><strong>Buyer Signature</strong></p>
+                            <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto; padding: 20px;">
+                        </div>
+                        
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-success" onclick="generateQRCode()">Generate  <i class="bi bi-qr-code animate__animated animate__flip"></i> QR</button>
+                        <button type="button" class="btn btn-success" onclick="printInvoice()"> <i class="bi bi-printer animate__animated animate__rubberBand"></i>Print</button>
+                        <!-- <button class="btn btn-success" onclick="generatePDF()">Share via WhatsApp</button> -->
+                        <button type="button" class="btn btn-primary" onclick="saveInvoice()"><i class="bi bi-save animate__animated animate__pulse animate__infinite"></i></button>
+                        <button type="button" class="btn btn-secondary" onclick="clearForm()"> <i class="bi bi-eraser animate__animated animate__rubberBand"></i> Clear</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    <script>
+        // Set the default date to today
+    const defaultDate = new Date().toLocaleDateString('en-GB');
+    document.getElementById('dateLabel').innerText = defaultDate;
+
+    // Initialize Flatpickr
+    const dateLabel = document.getElementById('dateLabel');
+    const calendarButton = document.getElementById('calendarButton');
+    
+    flatpickr(calendarButton, {
+        dateFormat: "d/m/Y", // Format: dd/mm/yyyy
+        defaultDate: new Date(), // Default to today
+        inline: false, // Show calendar on click only
+        onChange: function(selectedDates, dateStr) {
+            dateLabel.innerText = dateStr; // Update dateLabel with the selected date
+        }
+    });
+        function resizeTextarea(textarea) {
+        textarea.style.height = 'auto'; // Reset the height to auto
+        textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to the scrollHeight
+    }
+        function addRow() {
+            const table = document.getElementById('productRows');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" class="form-control" placeholder="Product Name" required></td>
+                <td><input type="number" class="form-control" placeholder="Price" oninput="calculateRowTotal(this)" required></td>
+                <td><input type="number" class="form-control" placeholder="Quantity" oninput="calculateRowTotal(this)" required></td>
+                <td><input type="number" class="form-control" placeholder="Total" readonly></td>
+                <td class="action-column"><button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button></td>
+            `;
+            table.appendChild(row);
+        }
+
+        function deleteRow(button) {
+            button.closest('tr').remove();
+            calculateTotalAmount();
+        }
+
+        function calculateRowTotal(input) {
+            const row = input.closest('tr');
+            const price = parseFloat(row.querySelector('input[placeholder="Price"]').value) || 0;
+            const quantity = parseFloat(row.querySelector('input[placeholder="Quantity"]').value) || 0;
+            row.querySelector('input[placeholder="Total"]').value = (price * quantity).toFixed(2);
+            calculateTotalAmount();
+        }
+
+        function calculateTotalAmount() {
+            let total = 0;
+            document.querySelectorAll('input[placeholder="Total"]').forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            document.getElementById('totalAmount').value = total.toFixed(2);
+        }
+
+    
+        function generateQRCode() {
+    const buyerName = document.getElementById('customerName').value || "Unknown Buyer";
+    const phoneNumber = document.getElementById('phoneNumber').value || "Unknown Phone";
+    const totalAmount = document.getElementById('totalAmount').value || "0.00";
+    const factoryName = "Khetra Bilasha Products";
+    const sellerName = "Sukanta Behera";
+
+    // Concatenate all details into a single string
+    const detailsString = `Company: ${factoryName}\nBuyer: ${buyerName}\nPhone: ${phoneNumber}\nTotal: ₹${totalAmount}\nSeller: ${sellerName}`;
+
+    // Convert the string to a UTF-8 encoded byte array
+    const encryptionKey = "8596@Kbp#";
+
+    // Convert the byte array to base64
+    const encodedDetails = CryptoJS.AES.encrypt(detailsString, encryptionKey).toString();
+
+    // Construct the QR content with both the human-readable details and base64 encoded string
+    // const qrContent = `Details:\nCompany: ${factoryName}\nBuyer: ${buyerName}\nPhone: ${phoneNumber}\nTotal: ₹${totalAmount}\nSeller: ${sellerName}\nSignature:\n${encodedDetails}`;
+    const qrContent = `Encrypted-Signature:\n${encodedDetails}`;
+
+    
+    // Generate the QR code
+    const qr = new QRious({
+        element: document.getElementById('qrCanvas'),
+        value: qrContent,
+        size: 200, // Adjust size as needed
+        background: 'white',
+        foreground: 'black',
+    });
+}
+
+
+
+function printInvoice() {
+    const buyerName = document.getElementById('customerName').value || "Invoice";
+    const dateLabel = document.getElementById('dateLabel').innerText || "Date";
+    document.title = `Invoice - ${buyerName} (${dateLabel})`; // Temporarily set the document title
+    window.print(); // Trigger print dialog
+}
+
+function saveInvoice() {
+    // Collect basic invoice details with checks for existence
+    const buyerName = document.getElementById('customerName') ? document.getElementById('customerName').value : "Unknown Buyer";
+    const phoneNumber = document.getElementById('phoneNumber') ? document.getElementById('phoneNumber').value : "Unknown Phone";
+    const date = document.getElementById('dateLabel') ? document.getElementById('dateLabel').innerText : "Unknown Date";
+    const totalAmount = parseFloat(document.getElementById('totalAmount') ? document.getElementById('totalAmount').value : "0.00");
+    const paymentStatus = document.getElementById('paymentStatus') ? document.getElementById('paymentStatus').value : "Pending";
+    const factoryName = "Khetra Bilasha Products";
+    const sellerName = "Sukanta Behera";
+
+    // Concatenate all details into a single string for encryption
+    const detailsString = `Company: ${factoryName}\nBuyer: ${buyerName}\nPhone: ${phoneNumber}\nTotal: ₹${totalAmount}\nSeller: ${sellerName}`;
+
+    // Convert the string to a UTF-8 encoded byte array
+    const encryptionKey = "8596@Kbp#";
+
+    // Encrypt the details and convert to base64
+    const encodedDetails = CryptoJS.AES.encrypt(detailsString, encryptionKey).toString();
+
+    // Create the invoice data object
+    const invoiceData = {
+        id: encodedDetails, // Store the encrypted base64 string as the "id"
+        buyerName,
+        phoneNumber,
+        date,
+        totalAmount,
+        paymentStatus,
+        products: []
+    };
+
+    // Collect product data from the product table with safety checks
+    const productRows = document.querySelectorAll('#productTable tbody tr');
+    if (productRows.length === 0) {
+        alert("No products found in the table.");
+        return; // Exit function if there are no products in the table
+    }
+
+    productRows.forEach(row => {
+        const productNameInput = row.querySelector('input[placeholder="Product Name"]');
+        const priceInput = row.querySelector('input[placeholder="Price"]');
+        const quantityInput = row.querySelector('input[placeholder="Quantity"]');
+        const totalInput = row.querySelector('input[placeholder="Total"]');
+
+        // Ensure that the inputs exist before reading values
+        if (productNameInput && priceInput && quantityInput && totalInput) {
+            const productName = productNameInput.value || "Unnamed Product";
+            const price = parseFloat(priceInput.value) || 0.00;
+            const quantity = parseInt(quantityInput.value) || 1;
+            const total = parseFloat(totalInput.value) || 0.00;
+
+            // Add product details to the invoice
+            invoiceData.products.push({
+                productName,
+                price,
+                quantity,
+                total
+            });
+        } else {
+            // Alert if any input field is missing
+            console.warn("Missing input field in one of the product rows.");
+        }
+    });
+
+    // Convert the invoice data to JSON format
+    const jsonContent = JSON.stringify(invoiceData, null, 4);
+
+    // Create a Blob with the JSON data and trigger a download
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'invoice.json'; // Name of the file
+    link.click(); // Trigger the download
+}
+
+
+
+    
+function clearForm() {
+        // Clear text inputs
+        document.getElementById('customerName').value = '';
+        document.getElementById('phoneNumber').value = '';
+        document.getElementById('paymentStatus').value = '';
+        document.getElementById('totalAmount').value = '';
+
+        // Reset date label to default date
+        const defaultDate = new Date().toLocaleDateString('en-GB');
+        document.getElementById('dateLabel').innerText = defaultDate;
+
+        // Reset the product table to one row
+        const productRows = document.getElementById('productRows');
+        productRows.innerHTML = `
+            <tr>
+                <td><input type="text" class="form-control" placeholder="Product Name" required></td>
+                <td><input type="number" class="form-control" placeholder="Price" oninput="calculateRowTotal(this)" required></td>
+                <td><input type="number" class="form-control" placeholder="Quantity" oninput="calculateRowTotal(this)" required></td>
+                <td><input type="number" class="form-control" placeholder="Total" readonly></td>
+                <td class="action-column"><button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button></td>
+            </tr>
+        `;
+
+        // Clear QR code canvas
+        const qrCanvas = document.getElementById('qrCanvas');
+        const qrContext = qrCanvas.getContext('2d');
+        qrContext.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+    }
+
+</script>
+</body>
+
+</html>
