@@ -109,17 +109,17 @@ body {
     margin-bottom: 0.5rem;
 }
 #searchResultsContainer {
-    margin-top: 1rem;
-    transition: opacity 0.3s ease;
-}
+        display: none;  /* Initially hidden */
+        margin-top: 1rem;
+        transition: opacity 0.3s ease;
+    }
 
-#searchResultsContainer.hidden {
-    opacity: 0;
-    pointer-events: none; /* Prevent interaction when hidden */
-}
+    #searchResultsContainer.hidden {
+        opacity: 0;
+        pointer-events: none;
 
        
-
+    }
         #dateLabel {
     font-size: 16px;
     color: #333;
@@ -284,44 +284,53 @@ async function fetchInvoices() {
 }
 
 // Search by phone number
-async function searchInvoiceByPhone() {
-    if (!invoices.length) await fetchInvoices();
+async function searchInvoice() {
+        if (!invoices.length) await fetchInvoices();
 
-    const query = document.getElementById('searchBox').value.trim();
-    const resultsContainer = document.getElementById('cardGrid');
-    resultsContainer.innerHTML = ''; // Clear previous results
-    document.getElementById('searchResultsContainer').style.display = 'block'; // Show container in case it was hidden
+        const query = document.getElementById('searchBox').value.trim().toLowerCase();
+        const resultsContainer = document.getElementById('cardGrid');
+        const searchResultsContainer = document.getElementById('searchResultsContainer');
 
-    if (!query) {
-        alert("Please enter a phone number to search.");
-        return;
+        resultsContainer.innerHTML = ''; // Clear previous results
+
+        // Show container only if the query has text
+        if (query) {
+            searchResultsContainer.style.display = 'block';
+        } else {
+            searchResultsContainer.style.display = 'none';
+            return;
+        }
+
+        const matchingInvoices = invoices.filter(inv =>
+            inv.phoneNumber.toLowerCase().includes(query) || 
+            inv.buyerName.toLowerCase().includes(query)
+        );
+
+        if (matchingInvoices.length === 0) {
+            resultsContainer.innerHTML = '<p>No invoices found for the given query.</p>';
+        } else {
+            matchingInvoices.forEach((invoice) => {
+                const card = document.createElement('div');
+                card.className = 'col-sm-12 col-md-6 col-lg-4 mb-3';
+                card.innerHTML = `
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Invoice #${invoice.id}</h5>
+                            <p><strong>Name:</strong> ${invoice.buyerName}</p>
+                            <p><strong>Date:</strong> ${invoice.date}</p>
+                            <p><strong>Total:</strong> ₹${invoice.totalAmount.toFixed(2)}</p>
+                            <button class="btn btn-primary w-100" onclick='viewInvoice(${JSON.stringify(invoice)})'>View Details</button>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.appendChild(card);
+            });
+        }
     }
 
-    const matchingInvoices = invoices.filter(inv => inv.phoneNumber === query);
+    // Update the button to trigger the search
+    document.querySelector('.btn-primary').onclick = searchInvoice;
 
-    if (matchingInvoices.length === 0) {
-        resultsContainer.innerHTML = '<p>No invoices found for this phone number.</p>';
-        return;
-    }
-
-    // Display tiles for each matching invoice
-    matchingInvoices.forEach((invoice) => {
-        const card = document.createElement('div');
-        card.className = 'col-sm-12 col-md-6 col-lg-4 mb-3'; // Responsive card width
-        card.innerHTML = `
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Invoice #${invoice.id}</h5>
-                    <p><strong>Name:</strong> ${invoice.buyerName}</p>
-                    <p><strong>Date:</strong> ${invoice.date}</p>
-                    <p><strong>Total:</strong> ₹${invoice.totalAmount.toFixed(2)}</p>
-                    <button class="btn btn-primary w-100" onclick='viewInvoice(${JSON.stringify(invoice)})'>View Details</button>
-                </div>
-            </div>
-        `;
-        resultsContainer.appendChild(card);
-    });
-}
 
 
 // Populate form with invoice details
@@ -363,7 +372,7 @@ function viewInvoice(invoice) {
                 <header class="d-flex justify-content-between align-items-start mb-4">
                     <!-- Left side: Logo -->
                     <div id="logo-container" class="d-flex align-items-center">
-                        <img id="company-logo" src="/images/logo.png" alt="Company Logo">
+                        <img id="company-logo" src="/logo.png" alt="Company Logo">
                     </div>
                     
                     <!-- Center: Company Name -->
@@ -606,7 +615,7 @@ function viewInvoice(invoice) {
                         <div class="col-md-6 text-center">
                             <p><strong>Seller Signature</strong></p>
                             <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto; padding: 0px;">
-                            <img src="/images/sign.jpg" alt="Seller Signature" style="max-width: 150px; border-top: 0px solid #000; padding: 0px;">
+                            <img src="/sign.jpg" alt="Seller Signature" style="max-width: 150px; border-top: 0px solid #000; padding: 0px;">
                         </div>
                         <div class="col-md-6 text-center">
                             <p><strong>Buyer Signature</strong></p>

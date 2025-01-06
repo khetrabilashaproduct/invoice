@@ -105,7 +105,7 @@
       "phoneNumber": "9777126928",
       "date": "03/01/2025",
       "totalAmount": 46400,
-      "paymentStatus": "2000 -Advance \n8000 -13.12.24\n4000 -14.12.24\n8000 -19.12.24\n11,200 -31.12.24 \n10200 - 03.01.25 (gpay)\n200 - 03.01.25 (cash)\n",
+      "paymentStatus": "2000 -Advance \n8000 -13.12.24\n4000 -14.12.24\n8000 -19.12.24\n11,200 -31.12.24 \n10200 - 03.01.25 (gpay)\n200 - 03.01.25 (cash)\n3000 - 04.01.25 ",
       "products": [
           {
               "productName": "Nanda 5.ft ",
@@ -155,7 +155,7 @@
   "phoneNumber": "6371668612",
   "date": "04/01/2025",
   "totalAmount": 19475,
-  "paymentStatus": "Paid -10,000 (cash) \nOn-hold-9,475",
+  "paymentStatus": "Paid - 19,300",
   "products": [
       {
           "productName": "Duara Bandha",
