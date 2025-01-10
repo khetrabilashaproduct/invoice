@@ -205,6 +205,61 @@ i.fa {
     color: rgb(10, 54, 110);
 }
 
+.input-group {
+                            position: relative;
+                        }
+                    
+                        .input-group .form-control {
+                            padding-right: 100px; /* Space for the dropdown button */
+                        }
+                    
+                        .dropdown-menu {
+                            display: none;
+                            position: absolute;
+                            top: 100%;
+                            left: 0;
+                            width: 100%;
+                            animation: dropdownFadeIn 0.3s ease-in-out;
+                            background-color: white;
+                            border: 1px solid #ccc;
+                            z-index: 1000;
+                        }
+                    
+                        .dropdown-menu.show {
+                            display: block;
+                        }
+                    
+                        @keyframes dropdownFadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(-10px);
+                            }
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                    
+                        /* Rotate the icon when dropdown is active */
+                        .rotate {
+                            transform: rotate(180deg);
+                            transition: transform 0.3s ease;
+                        }
+                    
+                        .dropdown-item {
+                            cursor: pointer;
+                        }
+                    
+                        /* Style for the dropdown button inside the input box */
+                        .input-group .btn {
+                            position: absolute;
+                            top: 50%;
+                            right: 5px;
+                            transform: translateY(-50%);
+                            border: none;
+                            background: none;
+                        }
+
 
 /* Animation to move the logo in a circular path */
 
@@ -246,6 +301,7 @@ i.fa {
         .form-row .form-label {
             white-space: nowrap;
         }
+
     
         @media screen and (max-width: 480px) {
             .container{
@@ -447,62 +503,7 @@ function viewInvoice(invoice) {
                     </table>
                     
                     <!-- Add CSS for the dropdown and animation -->
-                    <style>
-                        .input-group {
-                            position: relative;
-                        }
-                    
-                        .input-group .form-control {
-                            padding-right: 100px; /* Space for the dropdown button */
-                        }
-                    
-                        .dropdown-menu {
-                            display: none;
-                            position: absolute;
-                            top: 100%;
-                            left: 0;
-                            width: 100%;
-                            animation: dropdownFadeIn 0.3s ease-in-out;
-                            background-color: white;
-                            border: 1px solid #ccc;
-                            z-index: 1000;
-                        }
-                    
-                        .dropdown-menu.show {
-                            display: block;
-                        }
-                    
-                        @keyframes dropdownFadeIn {
-                            from {
-                                opacity: 0;
-                                transform: translateY(-10px);
-                            }
-                            to {
-                                opacity: 1;
-                                transform: translateY(0);
-                            }
-                        }
-                    
-                        /* Rotate the icon when dropdown is active */
-                        .rotate {
-                            transform: rotate(180deg);
-                            transition: transform 0.3s ease;
-                        }
-                    
-                        .dropdown-item {
-                            cursor: pointer;
-                        }
-                    
-                        /* Style for the dropdown button inside the input box */
-                        .input-group .btn {
-                            position: absolute;
-                            top: 50%;
-                            right: 5px;
-                            transform: translateY(-50%);
-                            border: none;
-                            background: none;
-                        }
-                    </style>
+                   
                     
                     <!-- JavaScript to handle dropdown and animation -->
                     <script>
@@ -623,7 +624,7 @@ function viewInvoice(invoice) {
                         <div class="col-md-6 text-center">
                             <p><strong>Seller Signature</strong></p>
                             <hr style="border-top: 1px solid #000; width: 80%; margin: 0 auto; padding: 0px;">
-                            <img src="/sign.jpg" alt="Seller Signature" style="max-width: 150px; border-top: 0px solid #000; padding: 0px;">
+                            <img src="sign.jpg" alt="Seller Signature" style="max-width: 150px; border-top: 0px solid #000; padding: 0px;">
                         </div>
                         <div class="col-md-6 text-center">
                             <p><strong>Buyer Signature</strong></p>
