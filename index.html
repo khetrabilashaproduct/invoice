@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice | Khetra Bilasha Products</title>
+    <link rel="icon" type="image/x-icon" href="invoice.webp">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
@@ -335,30 +336,37 @@ async function searchInvoice() {
 
 // Populate form with invoice details
 function viewInvoice(invoice) {
-    // Populate form fields with the selected invoice's data
-    document.getElementById('customerName').value = invoice.buyerName;
-    document.getElementById('phoneNumber').value = invoice.phoneNumber;
-    document.getElementById('totalAmount').value = invoice.totalAmount.toFixed(2);
-    document.getElementById('dateLabel').innerText = invoice.date;
-    document.getElementById('paymentStatus').value = invoice.paymentStatus.replace(/\\n/g, '\n');
+    console.log("Invoice Data:", invoice); // Debug the data passed to this function
 
-    // Populate the product table
-    const productTable = document.getElementById('productRows');
-    productTable.innerHTML = ''; // Clear previous rows
+    try {
+        document.getElementById('customerName').value = invoice.buyerName || '';
+        document.getElementById('phoneNumber').value = invoice.phoneNumber || '';
+        document.getElementById('totalAmount').value = invoice.totalAmount.toFixed(2) || '';
+        document.getElementById('dateLabel').innerText = invoice.date || '';
+        document.getElementById('paymentStatus').value = invoice.paymentStatus || '';
 
-    invoice.products.forEach(product => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${product.productName}</td>
-            <td>${product.price}</td>
-            <td>${product.quantity}</td>
-            <td>${product.total}</td>
-        `;
-        productTable.appendChild(row);
-    });
+        // Debug DOM updates
+        console.log("Populated basic fields");
 
-    // Hide the search results container
-    document.getElementById('searchResultsContainer').style.display = 'none';
+        const productTable = document.getElementById('productRows');
+        productTable.innerHTML = ''; // Clear table
+
+        invoice.products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.productName || ''}</td>
+                <td>${product.price || ''}</td>
+                <td>${product.quantity || ''}</td>
+                <td>${product.total || ''}</td>
+            `;
+            productTable.appendChild(row);
+        });
+
+        console.log("Populated product table");
+        document.getElementById('searchResultsContainer').style.display = 'none';
+    } catch (error) {
+        console.error("Error populating invoice:", error);
+    }
 }
 
 
