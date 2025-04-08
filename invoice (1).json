@@ -1,0 +1,52 @@
+{
+    "id": "U2FsdGVkX1+P3ck/2USAoENwEAVVoM2G3SD1EqQFvqAs7AtsraSWGUleN3fGvQWJwr+jjPcvbxSWCccY3QziOk0xAeGJgkREMG0TFqFxokxWcF34CQ+tOqAWBH5/sb1F/UHdPkxraZCDKHDfbDFoKeF9v9yS7kob1uRVA/L53sM=",
+    "buyerName": "SK. Mansur",
+    "phoneNumber": "8144601168",
+    "date": "10/01/2025",
+    "totalAmount": 1100,
+    "paymentStatus": "Paid - 1050 ",
+    "products": [
+        {
+            "productName": "Door Bolt",
+            "price": 250,
+            "quantity": 1,
+            "total": 250
+        },
+        {
+            "productName": "Front Handel",
+            "price": 250,
+            "quantity": 1,
+            "total": 250
+        },
+        {
+            "productName": "Back Handel",
+            "price": 50,
+            "quantity": 1,
+            "total": 50
+        },
+        {
+            "productName": "5'inch Kabja",
+            "price": 60,
+            "quantity": 3,
+            "total": 180
+        },
+        {
+            "productName": "Screws",
+            "price": 105,
+            "quantity": 1,
+            "total": 105
+        },
+        {
+            "productName": "Tar Bolt",
+            "price": 90,
+            "quantity": 2,
+            "total": 180
+        },
+        {
+            "productName": "Stopper",
+            "price": 85,
+            "quantity": 1,
+            "total": 85
+        }
+    ]
+}

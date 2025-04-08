@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -432,6 +433,7 @@ function viewInvoice(invoice) {
 
     <div id="invoiceContent">
             <div class="container position-relative">
+                    <div class="watermark">khetra Bilasha Products</div>
                 
                 <header class="d-flex justify-content-between align-items-start mb-4">
                     <!-- Left side: Logo -->
@@ -491,6 +493,7 @@ function viewInvoice(invoice) {
                                 <th class="action-column">Action</th>
                             </tr>
                         </thead>
+                        
                         <tbody id="productRows">
                             <tr>
                                 <td><input type="text" class="form-control" placeholder="Product Name" id="productName" required></td>
@@ -498,6 +501,12 @@ function viewInvoice(invoice) {
                                 <td><input type="number" class="form-control" placeholder="Quantity" oninput="calculateRowTotal(this)" required></td>
                                 <td><input type="number" class="form-control" placeholder="Total" readonly></td>
                                 <td class="action-column"><button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)"><i class="fa fa-trash animate__animated animate__rubberBand"></i> Delete</button></td>
+                                <td class="action-column"><button type="button" class="btn btn-info btn-sm" onclick="insertAfterRow(this)">
+                                    <i class="bi bi-plus-square-dotted"></i> Insert After
+                                  </button>
+                                  </td>
+                            
+                                  
                             </tr>
                         </tbody>
                     </table>
@@ -507,6 +516,17 @@ function viewInvoice(invoice) {
                     
                     <!-- JavaScript to handle dropdown and animation -->
                     <script>
+
+function insertAfterRow(button) {
+    const currentRow = button.closest('tr');
+    const newRow = currentRow.cloneNode(true);
+
+    // Clear input values in the new row
+    const inputs = newRow.querySelectorAll('input');
+    inputs.forEach(input => input.value = '');
+
+    currentRow.parentNode.insertBefore(newRow, currentRow.nextSibling);
+}
                         // Toggle dropdown visibility and rotate icon
                         function toggleDropdown() {
                             const dropdown = document.getElementById('productDropdown');
@@ -553,9 +573,11 @@ function viewInvoice(invoice) {
                             });
                         });
                     </script>
+
                     
-                    <button type="button" class="btn btn-primary mb-3" onclick="addRow()"><i class="fa fa-plus animate__animated animate__rubberBand"></i>
-                        Add Row</button>
+                    
+                    <!-- <button type="button" class="btn btn-primary mb-3" onclick="addRow()"><i class="fa fa-plus animate__animated animate__rubberBand"></i>
+                        Add Row</button> -->
 
                     <div class="row mb-3 align-items-center">
                         <div class="col-md-4">
@@ -665,23 +687,29 @@ function viewInvoice(invoice) {
         textarea.style.height = 'auto'; // Reset the height to auto
         textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to the scrollHeight
     }
-        function addRow() {
-            const table = document.getElementById('productRows');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="text" class="form-control" placeholder="Product Name" required></td>
-                <td><input type="number" class="form-control" placeholder="Price" oninput="calculateRowTotal(this)" required></td>
-                <td><input type="number" class="form-control" placeholder="Quantity" oninput="calculateRowTotal(this)" required></td>
-                <td><input type="number" class="form-control" placeholder="Total" readonly></td>
-                <td class="action-column"><button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button></td>
-            `;
-            table.appendChild(row);
-        }
+        // function addRow() {
+        //     const table = document.getElementById('productRows');
+        //     const row = document.createElement('tr');
+        //     row.innerHTML = `
+        //         <td><input type="text" class="form-control" placeholder="Product Name" required></td>
+        //         <td><input type="number" class="form-control" placeholder="Price" oninput="calculateRowTotal(this)" required></td>
+        //         <td><input type="number" class="form-control" placeholder="Quantity" oninput="calculateRowTotal(this)" required></td>
+        //         <td><input type="number" class="form-control" placeholder="Total" readonly></td>
+        //         <td class="action-column"><button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button></td>
+        //         <td class="action-column"><button type="button" class="btn btn-info btn-sm" onclick="insertAfterRow(this)">
+        //                             <i class="bi bi-plus-square-dotted"></i> Insert After
+        //                           </button>
+        //                           </td>
+        //     `;
+        //     table.appendChild(row);
+        // }
 
         function deleteRow(button) {
             button.closest('tr').remove();
             calculateTotalAmount();
         }
+        
+
 
         function calculateRowTotal(input) {
             const row = input.closest('tr');

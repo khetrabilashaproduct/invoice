@@ -1,0 +1,88 @@
+{
+    "id": "U2FsdGVkX18+S8QItMT5iuASALz4McMwmqaYtO3gLITDbPt7xaB8hwb/XZ2xJGJpHSoXnuvfVgbim3cx/HG+AfHLgXWKD9XthNdQX96ZSM0UJipaL2evz9SWrOy+nwi5Yo1ZjYK8Zm53xzP7iMh2z5D6U7mUFj9+mmeni2/NUOI=",
+    "buyerName": "Subendu Mohanty",
+    "phoneNumber": "123456789",
+    "date": "13/01/2025",
+    "totalAmount": 54880,
+    "paymentStatus": "5,000 -Advance Paid\n35,000 -Paid through Gpay\n14,880 - Remain to Pay\n",
+    "products": [
+        {
+            "productName": "Ply Door",
+            "price": 3000,
+            "quantity": 4,
+            "total": 12000
+        },
+        {
+            "productName": "Ply Door",
+            "price": 2350,
+            "quantity": 1,
+            "total": 2350
+        },
+        {
+            "productName": "WPC Window 17.3/4 x 43.1/4",
+            "price": 1237,
+            "quantity": 12,
+            "total": 14844
+        },
+        {
+            "productName": "WPC Window 11.3/4 x 43.1/4",
+            "price": 825,
+            "quantity": 2,
+            "total": 1650
+        },
+        {
+            "productName": "PVC Bathroom Door",
+            "price": 2900,
+            "quantity": 2,
+            "total": 5800
+        },
+        {
+            "productName": "Door-fitting Accessories",
+            "price": 7125,
+            "quantity": 1,
+            "total": 7125
+        },
+        {
+            "productName": "Window-fitting Accessories",
+            "price": 4550,
+            "quantity": 1,
+            "total": 4550
+        },
+        {
+            "productName": "Mistri Majuri",
+            "price": 6000,
+            "quantity": 1,
+            "total": 6000
+        },
+        {
+            "productName": "Gaadi Bhadaa",
+            "price": 250,
+            "quantity": 1,
+            "total": 250
+        },
+        {
+            "productName": "something",
+            "price": 150,
+            "quantity": 1,
+            "total": 150
+        },
+        {
+            "productName": "35-8 screw",
+            "price": 1.6,
+            "quantity": 35,
+            "total": 56
+        },
+        {
+            "productName": "19-16 screw",
+            "price": 0.75,
+            "quantity": 20,
+            "total": 15
+        },
+        {
+            "productName": "35-6 (black screw)",
+            "price": 0.6,
+            "quantity": 150,
+            "total": 90
+        }
+    ]
+}

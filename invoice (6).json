@@ -1,0 +1,112 @@
+{
+    "id": "U2FsdGVkX18lFhlTzQjOaMo1YskTsRFCwtjOzO32JhZcGvxJuRVwOKnFo1ITu50SQzZHtg3PnxMIsHOsn31G0+ydwe0VT9fNImp1XAC96g8B2XNHZOh/NS73rheQfPxD9+pV4YjM5bV+jbWLiYIJ/uKmlSQeSRIkH4yTsUBQ7tQ=",
+    "buyerName": "Taj Uddin Khan",
+    "phoneNumber": "9938865990",
+    "date": "11/01/2025",
+    "totalAmount": 15740,
+    "paymentStatus": "2000 - Advacne\n10,000 - 10/01/2025\n3739 - remain to paid",
+    "products": [
+        {
+            "productName": "Amber Door-Bolt",
+            "price": 300,
+            "quantity": 3,
+            "total": 900
+        },
+        {
+            "productName": "Suzu Tar-Bolt",
+            "price": 90,
+            "quantity": 8,
+            "total": 720
+        },
+        {
+            "productName": "Door Stopper",
+            "price": 85,
+            "quantity": 4,
+            "total": 340
+        },
+        {
+            "productName": "Magnet",
+            "price": 70,
+            "quantity": 4,
+            "total": 280
+        },
+        {
+            "productName": "Front Handel",
+            "price": 100,
+            "quantity": 3,
+            "total": 300
+        },
+        {
+            "productName": "Back Handel",
+            "price": 50,
+            "quantity": 4,
+            "total": 200
+        },
+        {
+            "productName": "5 inch Kabja",
+            "price": 60,
+            "quantity": 12,
+            "total": 720
+        },
+        {
+            "productName": "kareg Bolt",
+            "price": 9,
+            "quantity": 18,
+            "total": 162
+        },
+        {
+            "productName": "19/16 screw",
+            "price": 0.7,
+            "quantity": 115,
+            "total": 80.5
+        },
+        {
+            "productName": "3/16 screw",
+            "price": 0.5,
+            "quantity": 60,
+            "total": 30
+        },
+        {
+            "productName": "35/8 screw",
+            "price": 0.5,
+            "quantity": 60,
+            "total": 30
+        },
+        {
+            "productName": "4 inch kabja",
+            "price": 50,
+            "quantity": 4,
+            "total": 200
+        },
+        {
+            "productName": "4 inch tar-bolt",
+            "price": 50,
+            "quantity": 4,
+            "total": 200
+        },
+        {
+            "productName": "4 inch handel",
+            "price": 30,
+            "quantity": 2,
+            "total": 60
+        },
+        {
+            "productName": "19/6 screws",
+            "price": 0.7,
+            "quantity": 25,
+            "total": 17.5
+        },
+        {
+            "productName": "Plydoor",
+            "price": 2375,
+            "quantity": 4,
+            "total": 9500
+        },
+        {
+            "productName": "windows PVC",
+            "price": 1000,
+            "quantity": 2,
+            "total": 2000
+        }
+    ]
+}
